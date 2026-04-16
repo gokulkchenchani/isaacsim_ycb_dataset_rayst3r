@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+
+# *********
+# Authors: Gokul Chenchani
+# *********
+
 import os
 import random
 import numpy as np

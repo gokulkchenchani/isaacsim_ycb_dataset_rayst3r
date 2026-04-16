@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+
+# *********
+# Authors: Gokul Chenchani
+# *********
+
 from omni.isaac.core.utils.stage import add_reference_to_stage
 import os
 
