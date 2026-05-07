@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="ability_hand">
+    
+    <xacro:macro name="ability_hand" params="parent gazebo">
+        <xacro:include filename="$(find steve_description)/urdf/ability_hand/xacro/ability_hand.xacro"/>
+
+        <xacro:ability_hand parent="${parent}" gazebo="${gazebo}"/>
+
+    </xacro:macro>
+
+
+</robot>

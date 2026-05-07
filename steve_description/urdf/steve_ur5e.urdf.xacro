@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="steve_robot">
+
+
+    <xacro:property name="gazebo" default="false"/>
+    <link name="world"/>
+    
+    <!-- UR5E Robot Arm -->
+    <xacro:include filename="$(find steve_description)/urdf/ur5e/ur5e.urdf.xacro" />
+    <xacro:ur5e 
+            parent="world" 
+            tf_prefix="ur5e" 
+            visual_mesh_path="package://steve_description/meshes/ur5e/visual"
+            collision_mesh_path="package://steve_description/meshes/ur5e/collision"
+        >
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+    </xacro:ur5e>
+
+    <!-- Ability Hand -->
+    <xacro:include filename="$(find steve_description)/urdf/robotiq_2f_85/robotiq_gripper.xacro" />
+    <xacro:robotiq_gripper parent="ur5e_tool0" gazebo="${gazebo}" />
+</robot>

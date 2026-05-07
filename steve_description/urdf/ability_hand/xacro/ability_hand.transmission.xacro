@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="ability_hand_transmission">
+
+    <!-- index joint -->
+    <transmission name="index_joint_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="index_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="index_joint_motor">
+        <mechanicalReduction>1.0</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <!-- middle joint -->
+    <transmission name="middle_joint_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="middle_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="middle_joint_motor">
+        <mechanicalReduction>1.0</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <!-- ring joint -->
+    <transmission name="ring_joint_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="ring_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="ring_joint_motor">
+        <mechanicalReduction>1.0</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <!-- pinky joint -->
+    <transmission name="pinky_joint_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="pinky_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="pinky_joint_motor">
+        <mechanicalReduction>1.0</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <!-- thumb1 joint -->
+    <transmission name="thumb1_joint_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="thumb1_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="thumb1_joint_motor">
+        <mechanicalReduction>1.0</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <!-- thumb2 joint -->
+    <transmission name="thumb2_joint_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="thumb2_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="thumb2_joint_motor">
+        <mechanicalReduction>1.0</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+  </xacro:macro>
+
+</robot>

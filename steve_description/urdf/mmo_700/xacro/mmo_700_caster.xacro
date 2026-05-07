@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mmo_700">
+
+  <xacro:macro name="mmo_700_caster_0" params="name parent *origin">
+
+
+      <!-- =================== FRONT LEFT CASTER =================== -->
+
+      <link name="${name}_link">
+         <inertial>
+            <mass value="9" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.00044332" ixy="0" ixz="0" iyy="0.00044332" iyz="0" izz="0.00072" />
+         </inertial>
+         <visual>
+            <origin xyz="0 0 0.10" rpy="0 0 0"/>
+            <geometry>
+               <mesh filename="package://steve_description/meshes/mmo_700/MPO_700_HEAD.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+         </visual>
+         <collision>
+            <origin xyz="0 0 0.10" rpy="0 0 0" />
+            <geometry>
+               <mesh filename="package://steve_description/meshes/mmo_700/MPO_700_HEAD.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+         </collision>
+      </link>
+
+      <joint name="${name}_joint" type="continuous">
+         <xacro:insert_block name="origin" />
+         <axis xyz="0 0 -1" />
+         <limit effort="1000.0" lower="-1e+16" upper="1e+16" velocity="3.5"/>
+         <joint_properties damping="1" friction="1" />
+         <parent link="${parent}" />
+         <child link="${name}_link" />
+      </joint>
+
+      <!-- Transmission-->
+      <transmission name="${name}_transmission">
+         <type>transmission_interface/SimpleTransmission</type>
+         <joint name="${name}_joint">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+         </joint>
+         <actuator name="${name}_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+         </actuator>
+      </transmission>
+   
+  </xacro:macro>
+
+
+
+  <xacro:macro name="mmo_700_caster_1" params="name parent *origin">
+
+
+      <!-- =================== FRONT RIGHT CASTER =================== -->
+
+      <link name="${name}_link">
+         <inertial>
+            <mass value="9" />
+            <origin xyz="0 0 0." rpy="0 0 0" />
+            <inertia ixx="0.00044332" ixy="0" ixz="0" iyy="0.00044332" iyz="0" izz="0.00072" />
+         </inertial>
+         <visual>
+            <origin xyz="0 0 0.10" rpy="0 0 0"/>
+            <geometry>
+               <mesh filename="package://steve_description/meshes/mmo_700/MPO_700_HEAD.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+         </visual>
+         <collision>
+            <origin xyz="0 0 0.10" rpy="0 0 0" />
+            <geometry>
+               <mesh filename="package://steve_description/meshes/mmo_700/MPO_700_HEAD.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+         </collision>
+      </link>
+
+      <joint name="${name}_joint" type="continuous">
+         <xacro:insert_block name="origin" />
+         <axis xyz="0 0 -1" />
+         <limit effort="1000.0" lower="-1e+16" upper="1e+16" velocity="3.5"/>
+         <joint_properties damping="1" friction="1" />
+         <parent link="${parent}" />
+         <child link="${name}_link" />
+      </joint>
+      
+      <!-- Transmission-->
+      <transmission name="${name}_transmission">
+         <type>transmission_interface/SimpleTransmission</type>
+         <joint name="${name}_joint">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+         </joint>
+         <actuator name="${name}_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+         </actuator>
+      </transmission>
+
+  </xacro:macro>
+  
+
+   <xacro:macro name="mmo_700_caster_2" params="name parent *origin">
+
+
+      <!-- =================== REAR LEFT CASTER =================== -->
+
+      <link name="${name}_link">
+      <inertial>
+         <mass value="9" />
+         <origin xyz="0 0 0." rpy="0 0 0" />
+         <inertia ixx="0.00044332" ixy="0" ixz="0" iyy="0.00044332" iyz="0" izz="0.00072" />
+      </inertial>
+      <visual>
+         <origin xyz="0 0 0.10" rpy="0 0 0"/>
+         <geometry>
+            <mesh filename="package://steve_description/meshes/mmo_700/MPO_700_HEAD.dae" scale="0.001 0.001 0.001"/>
+         </geometry>
+      </visual>
+      <collision>
+         <origin xyz="0 0 0.10" rpy="0 0 0" />
+         <geometry>
+            <mesh filename="package://steve_description/meshes/mmo_700/MPO_700_HEAD.dae" scale="0.001 0.001 0.001"/>
+         </geometry>
+      </collision>
+      </link>
+
+      <joint name="${name}_joint" type="continuous">
+         <xacro:insert_block name="origin" />
+         <axis xyz="0 0 -1" />
+         <limit effort="1000.0" lower="-1e+16" upper="1e+16" velocity="3.5"/> 
+         <joint_properties damping="1" friction="1" />
+         <parent link="${parent}" />
+         <child link="${name}_link" />
+      </joint>
+
+      <!-- Transmission-->
+      <transmission name="${name}_transmission">
+         <type>transmission_interface/SimpleTransmission</type>
+         <joint name="${name}_joint">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+         </joint>
+         <actuator name="${name}_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+         </actuator>
+      </transmission>
+   
+  </xacro:macro>
+
+
+   <xacro:macro name="mmo_700_caster_3" params="name parent *origin">
+
+
+      <!-- =================== REAR RIGHT CASTER =================== -->
+     
+      <link name="${name}_link">
+      <inertial>
+         <mass value="9" />
+         <origin xyz="0 0 0" rpy="0 0 0" />
+         <inertia ixx="0.00044332" ixy="0" ixz="0" iyy="0.00044332" iyz="0" izz="0.00072" />
+      </inertial>
+      <visual>
+         <origin xyz="0 0 0.10" rpy="0 0 0"/>
+         <geometry>
+            <mesh filename="package://steve_description/meshes/mmo_700/MPO_700_HEAD.dae" scale="0.001 0.001 0.001"/>
+         </geometry>
+      </visual>
+      <collision>
+         <origin xyz="0 0 0.10" rpy="0 0 0" />
+         <geometry>
+            <mesh filename="package://steve_description/meshes/mmo_700/MPO_700_HEAD.dae" scale="0.001 0.001 0.001"/>
+         </geometry>
+         </collision>
+      </link>
+
+      <joint name="${name}_joint" type="continuous">
+         <xacro:insert_block name="origin" />
+         <axis xyz="0 0 -1" />
+         <limit effort="1000.0" lower="-1e+16" upper="1e+16" velocity="3.5"/>
+         <joint_properties damping="1" friction="1" />
+         <parent link="${parent}" />
+         <child link="${name}_link" />
+      </joint>
+
+      <!-- Transmission-->
+      <transmission name="${name}_transmission">
+         <type>transmission_interface/SimpleTransmission</type>
+         <joint name="${name}_joint">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+         </joint>
+         <actuator name="${name}_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+         </actuator>
+      </transmission>
+   
+  </xacro:macro>
+</robot>
+
+

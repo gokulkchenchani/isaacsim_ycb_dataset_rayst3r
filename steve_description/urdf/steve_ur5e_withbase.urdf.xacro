@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="steve_robot">
+
+
+    <xacro:property name="gazebo" default="false"/>
+    <link name="world"/>
+
+    <!-- UR5E Robot Arm -->
+    <xacro:include filename="$(find steve_description)/urdf/ur5e/ur5e.urdf.xacro" />
+    <xacro:ur5e 
+            parent="world" 
+            tf_prefix="ur5e" 
+            visual_mesh_path="package://steve_description/meshes/ur5e/visual"
+            collision_mesh_path="package://steve_description/meshes/ur5e/collision"
+        >
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+    </xacro:ur5e>
+
+    <link name="cabinet_link">
+        <inertial>
+        <mass value="2"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.457072" ixy="0.0" ixz="0.0" iyy="0.23616" iyz="0.0" izz="0.686"/>
+        </inertial>
+        <visual>
+        <origin rpy="0 0 -1.5708" xyz="0 0 0"/>
+        <geometry>
+            <mesh filename="package://steve_description/meshes/mmo_700/cabin.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+        </visual>
+        <collision>
+        <origin rpy="0 0 -1.5708" xyz="0.0 0.0 0.0"/>
+        <geometry>
+            <mesh filename="package://steve_description/meshes/mmo_700/cabin.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+        </collision>
+    </link>
+    <joint name="cabinet_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="-0.133 0.0 -0.416"/>
+        <joint_properties damping="1" friction="1"/>
+        <parent link="ur5e_base_link"/>
+        <child link="cabinet_link"/>
+    </joint>
+
+    <!-- Ability Hand -->
+    <xacro:include filename="$(find steve_description)/urdf/robotiq_2f_85/robotiq_gripper.xacro" />
+    <xacro:robotiq_gripper parent="ur5e_tool0" gazebo="${gazebo}" />
+
+    <!-- Virtual Gripper Link -->
+    <link name="gripper_virtual_link">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+    </link>
+
+    <joint name="flange_gripper_virtual_joint" type="fixed">
+        <parent link="ur5e_tool0"/>
+        <child link="gripper_virtual_link"/>
+        <origin rpy="0 0 1.5707963267948966" xyz="0 0 0.11"/>
+    </joint>
+</robot>

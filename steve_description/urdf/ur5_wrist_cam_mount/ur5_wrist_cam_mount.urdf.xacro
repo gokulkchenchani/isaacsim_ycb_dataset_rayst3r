@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="hand_cam_mount">
+    
+    <xacro:macro name="ur5_wrist_cam_mount" params="parent *origin">
+    
+        <material name="grey">
+            <color rgba="0.5 0.5 0.5 1"/>
+        </material>
+
+        <link name="ur5_wrist_cam_mount_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://steve_description/meshes/ur5_wrist_cam_mount/ur5_wrist_cam_mount.STL" scale="0.001 0.001 0.001" />
+                </geometry>
+                <material name="grey"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://steve_description/meshes/ur5_wrist_cam_mount/ur5_wrist_cam_mount.STL" scale="0.001 0.001 0.001" />
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="${parent}_wrist_d405_mount_joint" type="fixed">
+            <parent link="${parent}" />
+            <child link="ur5_wrist_cam_mount_link" />
+            <xacro:insert_block name="origin" />
+        </joint>
+
+    </xacro:macro>
+
+</robot>

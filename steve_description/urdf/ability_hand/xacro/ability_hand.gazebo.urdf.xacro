@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ability_hand_robot">
+  <!-- Base or root link for the world frame -->
+  <link name="world"/>
+    
+  <!-- Include the ability hand xacro file and set property values -->
+  <xacro:include filename="$(find steve_description)/urdf/ability_hand/xacro/ability_hand.xacro"/>
+  
+  <!-- Assign values to any necessary properties in the ability hand -->
+  <xacro:ability_hand parent="world" gazebo="true"/>
+  <!-- Gazebo specifics for the robot -->
+  <xacro:include filename="$(find steve_description)/urdf/ability_hand/xacro//common.gazebo.xacro" />
+   <!-- ability hand transmission -->
+  <xacro:include filename="$(find steve_description)/urdf/ability_hand/xacro//ability_hand.transmission.xacro" />
+  <xacro:ability_hand_transmission />
+
+</robot>

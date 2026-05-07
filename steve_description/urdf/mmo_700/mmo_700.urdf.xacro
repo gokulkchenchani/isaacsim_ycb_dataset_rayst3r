@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mmo_700">
+    
+    <xacro:macro name="mmo_700" params="name gazebo">
+
+        <!-- args -->
+        <xacro:arg name="imu" default="true" />
+        <xacro:arg name="lidar" default="true" />
+        <xacro:arg name="camera" default="false" />
+        <xacro:arg name="sick_S300" default="false" />
+        <xacro:arg name="ultrasonic" default="false" />
+
+        
+        <xacro:include filename="$(find steve_description)/urdf/mmo_700/xacro/cabinet.xacro" />
+        
+        
+        <!-- GAZEBO REFERENCE -->
+        <xacro:if value="${gazebo}">
+            <xacro:include filename="$(find steve_description)/urdf/mmo_700/xacro/mmo_700_gazebo.xacro" />
+        </xacro:if>
+
+        <!-- ************************************************************************ -->
+        <!-- ========================= MMO_700 ====================================== -->
+        <!-- ************************************************************************ -->
+
+        <!--  BASS -->
+        <xacro:include filename="$(find steve_description)/urdf/mmo_700/xacro/mmo_700_body.xacro" />
+        <xacro:mmo_700_base name="base_link"/>
+
+        <!-- CASTERS -->
+        <xacro:include filename="$(find steve_description)/urdf/mmo_700/xacro/mmo_700_caster.xacro" />
+
+        <xacro:mmo_700_caster_0 name="mmo_700_caster_front_left" parent="base_link">
+            <origin xyz="0.24 0.18 0.27" rpy="3.14 0 -1.57" />
+        </xacro:mmo_700_caster_0>
+
+        <xacro:mmo_700_caster_1 name="mmo_700_caster_front_right" parent="base_link">
+            <origin xyz="0.24 -0.18 0.27" rpy="3.14 0 1.57" />
+        </xacro:mmo_700_caster_1>
+
+        <xacro:mmo_700_caster_2 name="mmo_700_caster_back_left" parent="base_link">
+            <origin xyz="-0.24 0.18 0.27" rpy="3.14 0 -1.57" />
+        </xacro:mmo_700_caster_2>
+
+        <xacro:mmo_700_caster_3 name="mmo_700_caster_back_right" parent="base_link">
+            <origin xyz="-0.24 -0.18 0.27" rpy="3.14 0 1.57" />
+        </xacro:mmo_700_caster_3>
+
+        <!-- WHEELS -->
+        <xacro:include filename="$(find steve_description)/urdf/mmo_700/xacro/mmo_700_wheel.xacro" />
+
+        <xacro:mmo_700_wheel name="mmo_700_wheel_front_left" parent="mmo_700_caster_front_left_link">
+            <origin xyz="-0.05 0. 0.18" rpy="0 0 0" />
+        </xacro:mmo_700_wheel>
+        
+        <xacro:mmo_700_wheel name="mmo_700_wheel_front_right" parent="mmo_700_caster_front_right_link">
+            <origin xyz="-0.05 0. 0.18" rpy="0 0 0" />
+        </xacro:mmo_700_wheel>
+
+        <xacro:mmo_700_wheel name="mmo_700_wheel_back_left" parent="mmo_700_caster_back_left_link">
+            <origin xyz="-0.05 0. 0.18" rpy="0 0 0" />
+        </xacro:mmo_700_wheel>
+
+        <xacro:mmo_700_wheel name="mmo_700_wheel_back_right" parent="mmo_700_caster_back_right_link">
+            <origin xyz="-0.05 0. 0.18" rpy="0 0 0" />
+        </xacro:mmo_700_wheel>
+
+        <!--cabinet-->
+        <xacro:mmo_700_cabinet name="cabinet" parent="base_link">
+            <origin xyz="0.072 0 0.35" rpy="0 0 0" />
+        </xacro:mmo_700_cabinet>
+
+
+        <!-- SENSOR : imu -->
+        <xacro:if value="$(arg imu)">
+
+            <xacro:include filename="$(find steve_description)/urdf/mmo_700/xacro/imu.xacro" />
+
+            <xacro:imu name="imu" parent="base_link">
+                <origin xyz="0.100 0 0.300" rpy="0 0 3.14" />
+            </xacro:imu>
+
+        </xacro:if>
+
+        <!-- SENSOR : lidar -->
+        <xacro:if value="$(arg lidar)">
+
+            <xacro:include filename="$(find steve_description)/urdf/mmo_700/xacro/micro_scan.xacro" />
+
+            <xacro:sick_laser_v0 name="lidar_1" parent="base_link" ros_topic="lidar_1/scan_filtered">
+                <origin xyz="0.338 0.288 0.223" rpy="3.14 0 0.79" /> 
+            </xacro:sick_laser_v0>
+
+            <xacro:sick_laser_v0 name="lidar_2" parent="base_link" ros_topic="lidar_2/scan_filtered">
+                <origin xyz="-0.338 -0.288 0.223" rpy="3.14 0 3.93" />
+            </xacro:sick_laser_v0>
+
+        </xacro:if>
+
+        <!-- SENSOR : camera -->
+        <xacro:if value="$(arg camera)">
+
+            <xacro:include filename="$(find steve_description)/urdf/mmo_700/xacro/camera.xacro" />
+
+            <xacro:camera name="camera" parent="base_link">
+                <origin xyz="0 0 0.38" rpy="0 0 0" /> <!-- adjust the origin -->
+            </xacro:camera>
+
+        </xacro:if>
+
+
+        <!-- SENSOR : sick_S300 -->
+        <xacro:if value="$(arg sick_S300)">
+
+            <xacro:include filename="$(find steve_description)/urdf/mmo_700/xacro/sick_S300.xacro" />
+
+            <xacro:sick_S300 name="sick_S300" parent="base_link">
+                <origin xyz="0.0 0.0 0.3" rpy="0 0 0" />
+            </xacro:sick_S300>
+
+        </xacro:if>
+
+        <!-- SENSOR : ultrasonic -->
+        <xacro:if value="$(arg ultrasonic)">
+            <xacro:include filename="$(find steve_description)/urdf/mmo_700/xacro/ultrasonic.xacro" />
+
+            <xacro:us_sensor name="us_1" parent="base_link">
+                <origin xyz="0.400 0 0.500" rpy="0 3.14 3.14" />
+            </xacro:us_sensor>
+
+            <xacro:us_sensor name="us_2" parent="base_link">
+                <origin xyz="0.110 0 0.300" rpy="0 3.14 3.14" />
+            </xacro:us_sensor>
+
+            <xacro:us_sensor name="us_3" parent="base_link">
+                <origin xyz="0.120 0 0.300" rpy="0 3.14 3.14" />
+            </xacro:us_sensor>
+
+            <xacro:us_sensor name="us_4" parent="base_link">
+                <origin xyz="0.130 0 0.300" rpy="0 3.14 3.14" />
+            </xacro:us_sensor>
+
+            <xacro:us_sensor name="us_5" parent="base_link">
+                <origin xyz="0.140 0 0.300" rpy="0 3.14 3.14" />
+            </xacro:us_sensor>
+
+            <xacro:us_sensor name="us_6" parent="base_link">
+                <origin xyz="0.150 0 0.300" rpy="0 3.14 3.14" />
+            </xacro:us_sensor>
+
+            <xacro:us_sensor name="us_7" parent="base_link">
+                <origin xyz="0.160 0 0.300" rpy="0 3.14 3.14" />
+            </xacro:us_sensor>
+
+            <xacro:us_sensor name="us_8" parent="base_link">
+                <origin xyz="0.170 0 0.300" rpy="0 3.14 3.14" />
+            </xacro:us_sensor>
+
+            <xacro:us_sensor name="us_9" parent="base_link">
+                <origin xyz="0.180 0 0.300" rpy="0 3.14 3.14" />
+            </xacro:us_sensor>
+
+            <xacro:us_sensor name="us_10" parent="base_link">
+                <origin xyz="0.100 0 0.300" rpy="0 3.14 3.14" />
+            </xacro:us_sensor>
+
+            <xacro:us_sensor name="us_11" parent="base_link">
+                <origin xyz="0.100 0 0.300" rpy="0 3.14 3.14" />
+            </xacro:us_sensor>
+
+            <xacro:us_sensor name="us_12" parent="base_link">
+                <origin xyz="0.190 0 0.300" rpy="0 3.14 3.14" />
+            </xacro:us_sensor>
+
+            <xacro:us_sensor name="us_13" parent="base_link">
+                <origin xyz="0.200 0 0.300" rpy="0 3.14 3.14" />
+            </xacro:us_sensor>
+
+            <xacro:us_sensor name="us_14" parent="base_link">
+                <origin xyz="0.210 0 0.300" rpy="0 3.14 3.14" />
+            </xacro:us_sensor>
+
+            <xacro:us_sensor name="us_15" parent="base_link">
+                <origin xyz="0.220 0 0.300" rpy="0 3.14 3.14" />
+            </xacro:us_sensor>
+
+            <xacro:us_sensor name="us_16" parent="base_link">
+                <origin xyz="0.230 0 0.300" rpy="0 3.14 3.14" />
+            </xacro:us_sensor>
+
+        </xacro:if>
+
+
+        
+        
+    </xacro:macro>
+
+
+</robot>

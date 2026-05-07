@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="pan_tilt_tower">
+    
+    <xacro:macro name="pan_tilt_tower" params="parent *origin gazebo">
+        
+        <!-- ****************************************************************** -->
+        <!-- ====================== PAN-TILT TOWER ============================ -->
+        <!-- ****************************************************************** -->
+
+        <xacro:property name="tower_height" value="0.9"/>
+        <xacro:property name="profile_width" value="0.04"/>
+        <xacro:property name="mount_mass" value="1.0"/>
+        <xacro:property name="motor_width" value="0.04"/>
+        <xacro:property name="motor_height" value="0.04"/>
+        <xacro:property name="motor_depth" value="0.04"/>
+        <xacro:property name="tower_collision_offset" value="0.03" />
+
+        <material name="tower_material">
+            <color rgba="0.7 0.7 0.7 1"/>
+        </material>
+
+        
+        
+        <!-- Tower mount base link -->
+        <link name="pan_tilt_tower_base">
+            <visual>
+                <geometry>
+                    <mesh filename="package://steve_description/meshes/pan_tilt_tower/pan_tilt_tower.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="tower_material"/>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://steve_description/meshes/pan_tilt_tower/pan_tilt_tower.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="${mount_mass}"/>
+                <inertia ixx="0.05" ixy="0" ixz="0" iyy="0.05" iyz="0" izz="0.05"/>
+            </inertial>
+        </link>
+
+        <joint name="pan_tilt_tower_joint" type="fixed">
+            <parent link="${parent}"/>
+            <child link="pan_tilt_tower_base"/>
+            <xacro:insert_block name="origin" />
+        </joint>
+
+
+        
+
+        <!-- Dynamixel pan tilt -->
+        <xacro:include filename="$(find steve_description)/urdf/pan_tilt_tower/xacro/dynamixel_pan_tilt.xacro" />
+
+        <xacro:dynamixel_pan_tilt parent="pan_tilt_tower_base" name="dynamixel_pan_tilt">
+            <origin xyz="0.02 0.0 1.047" rpy="${125*pi/180} 0.0 ${pi/2}" />
+        </xacro:dynamixel_pan_tilt>
+
+
+
+    </xacro:macro>
+
+
+</robot>

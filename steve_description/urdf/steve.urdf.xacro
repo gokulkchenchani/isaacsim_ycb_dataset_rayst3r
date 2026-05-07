@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="steve_robot">
+
+
+    <xacro:property name="gazebo" default="false"/>
+
+
+    
+    <!-- MMO_700 robot -->
+    <xacro:include filename="$(find steve_description)/urdf/mmo_700/mmo_700.urdf.xacro" />
+    <xacro:mmo_700 name="mmo_700" gazebo="${gazebo}" />
+    
+    <!-- UR5E Robot Arm -->
+    <xacro:include filename="$(find steve_description)/urdf/ur5e/ur5e.urdf.xacro" />
+    <xacro:ur5e 
+            parent="cabinet_link" 
+            tf_prefix="ur5e" 
+            visual_mesh_path="package://steve_description/meshes/ur5e/visual"
+            collision_mesh_path="package://steve_description/meshes/ur5e/collision"
+        >
+        <origin rpy="0.0 0.0 0.0" xyz="0.133 0.0 0.416"/>
+    </xacro:ur5e>
+
+    <!-- Ability Hand -->
+    <xacro:include filename="$(find steve_description)/urdf/ability_hand/ability_hand.urdf.xacro" />
+    <xacro:ability_hand parent="ur5e_tool0" gazebo="${gazebo}" />
+    <!-- <xacro:include filename="$(find steve_description)/urdf/robotiq_2f_85/robotiq_gripper.xacro" />
+    <xacro:robotiq_gripper parent="ur5e_tool0" gazebo="${gazebo}" /> -->
+
+
+    <!-- Pan-Tilt Tower -->
+    <xacro:include filename="$(find steve_description)/urdf/pan_tilt_tower/pan_tilt_tower.urdf.xacro" />
+    <xacro:pan_tilt_tower 
+            parent="cabinet_link" 
+            gazebo="${gazebo}"
+        >
+        <origin rpy="0.0 0.0 0.0" xyz="-0.2 0.0 0.424"/>
+    </xacro:pan_tilt_tower>
+
+
+    <!-- Realsense L515 : Pan-Tilt Camera -->
+    <xacro:include filename="$(find steve_description)/urdf/realsense/l515/_l515.urdf.xacro" />
+    <xacro:sensor_l515 name="head_lidar_camera" 
+            topics_ns="realsense_l515" 
+            parent="dynamixel_pan_tilt_tilt_bracket_link"
+            use_nominal_extrinsics="true" 
+            publish_pointcloud="false" 
+            add_plug="true" 
+            use_mesh="true"
+        >
+        <origin rpy="-${pi/2} 0.0 ${pi/2}" xyz="0.03 0.047 0.0"/>
+    </xacro:sensor_l515>
+
+    <!-- UR5 Wrist Camera Mount Link -->
+    <xacro:include filename="$(find steve_description)/urdf/ur5_wrist_cam_mount/ur5_wrist_cam_mount.urdf.xacro" />
+    <xacro:ur5_wrist_cam_mount parent="ur5e_wrist_3_link" >
+        <origin rpy="0.0 0.0 ${pi/2}" xyz="0.0 0.0 -0.03"/>
+    </xacro:ur5_wrist_cam_mount>
+
+    <!-- Wrist Cam: realsense d405 -->
+    <xacro:include filename="$(find steve_description)/urdf/realsense/d405/_d405.urdf.xacro" />
+    <xacro:sensor_d405 name="wrist_camera" 
+            parent="ur5_wrist_cam_mount_link" 
+            use_nominal_extrinsics="true" 
+            add_plug="true"
+        >
+        <origin rpy="${pi} -${pi/2 + 0.2} 0.0" xyz="0.08 0.0 0.05"/>
+    </xacro:sensor_d405>
+
+</robot>

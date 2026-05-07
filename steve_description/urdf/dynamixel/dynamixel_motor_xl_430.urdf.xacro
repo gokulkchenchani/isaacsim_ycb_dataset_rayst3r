@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://ros.org/wiki/xacro">
+       
+  <xacro:include filename="$(find steve_description)/urdf/dynamixel/dynamixel_motor_xl_430.gazebo.xacro" />
+  <xacro:include filename="$(find steve_description)/urdf/dynamixel/dynamixel_motor_xl_430.transmission.xacro" />
+
+  <xacro:macro name="dynamixel_motor_xl_430" params="parent name *origin motor_direction position_offset">
+
+    <joint name="${name}_base_joint" type="fixed" >
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}" />
+      <child link="${name}_base_link" />
+    </joint>
+
+    <link name="${name}_base_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.05"/>
+        <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0.0" rpy="0 ${pi/2} 0" />
+        <geometry>
+          <mesh filename="package://steve_description/meshes/dynamixel/dynamixel_motor_xl_430.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.0" rpy="0 ${pi/2} 0" />
+        <geometry>
+          <mesh filename="package://steve_description/meshes/dynamixel/dynamixel_motor_xl_430_convex_hull.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+      </collision>
+    </link>
+    
+    <xacro:if value="${name == 'dynamixel_pan_tilt_tilt_motor'}">
+      <joint name="${name}_joint" type="revolute" >
+        <parent link="${name}_base_link" />
+        <child link="${name}_link" />
+        <origin xyz="0 0 0.0" rpy="${position_offset} 0 ${pi}"/>
+        <axis xyz="${motor_direction} 0 0"/>
+        <limit effort="1.5" lower="-${pi / 180 * 110}" upper="${pi / 180 * 110}" velocity="6.178465545"/>
+      </joint>
+    </xacro:if>
+
+    <xacro:if value="${name != 'dynamixel_pan_tilt_tilt_motor'}">
+      <joint name="${name}_joint" type="revolute" >
+        <parent link="${name}_base_link" />
+        <child link="${name}_link" />
+        <origin xyz="0 0 0.0" rpy="${position_offset} 0 ${pi}"/>
+        <axis xyz="${motor_direction} 0 0"/>
+        <limit effort="1.5" lower="-${pi / 180 * 180}" upper="${pi / 180 * 20}" velocity="6.178465545"/>
+      </joint>
+    </xacro:if>
+
+    <!-- <joint name="${name}_joint" type="revolute" >
+      <parent link="${name}_base_link" />
+      <child link="${name}_link" />
+      <origin xyz="0 0 0.0" rpy="${position_offset} 0 ${pi}"/>
+      <axis xyz="${motor_direction} 0 0"/>
+      <limit effort="1.5" lower="-${pi / 180 * 110}" upper="${pi / 180 * 110}" velocity="6.178465545"/>
+    </joint> -->
+
+    <link name="${name}_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+      </inertial>
+    </link>
+    
+    <!-- extensions -->
+	<xacro:dynamixel_motor_xl_430_gazebo name="${name}" />
+	<xacro:dynamixel_motor_xl_430_transmission name="${name}" />
+
+  </xacro:macro>
+
+</robot>

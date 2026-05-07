@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="robotiq_gripper">
+
+  <xacro:macro name="robotiq_gripper" params="parent gazebo">
+
+    <xacro:macro name="default_inertial" params="mass">
+      <inertial>
+        <mass value="${mass}" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                           iyy="1.0" iyz="0.0"
+                                     izz="1.0" />
+      </inertial>
+    </xacro:macro>
+
+    <material name="black">
+      <color rgba="0.2 0.2 0.2 1"/>
+    </material>
+
+    <joint name="${parent}_robotiq_coupling_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="robotiq_coupling" />
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 ${pi/2}" />
+    </joint>
+
+    <link name="robotiq_coupling" type="fixed">
+      <visual name="wrist_mesh">
+        <origin rpy = "0 0 0" xyz = "0 0 0"/>
+        <geometry>
+          <mesh filename="$(find steve_description)/meshes/robotiq_2f_85/visual/robotiq_gripper_coupling_17mm.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="black" />
+      </visual>
+      <collision>
+        <origin rpy = "0 0 0" xyz = "0 0 0"/>
+        <geometry>
+          <mesh filename="$(find steve_description)/meshes/robotiq_2f_85/visual/robotiq_gripper_coupling_17mm.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <xacro:default_inertial mass="0.002" />
+    </link>
+
+    <joint name="robotiq_coupling_base_joint" type="fixed">
+      <parent link="robotiq_coupling" />
+      <child link="robotiq_arg2f_base_link" />
+      <origin xyz="0.0 0.0 0.0085" rpy="0.0 0.0 0.0" />
+    </joint>
+
+    <xacro:include filename="$(find steve_description)/urdf/robotiq_2f_85/robotiq_arg2f_85_model_macro.xacro" />
+    <xacro:robotiq_arg2f_85 prefix=""/>
+    
+  </xacro:macro>
+
+</robot>
