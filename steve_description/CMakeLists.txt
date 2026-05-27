@@ -18,7 +18,6 @@ install(DIRECTORY
   config
   launch
   rviz
-  usd
   DESTINATION share/${PROJECT_NAME}/
 )
 
